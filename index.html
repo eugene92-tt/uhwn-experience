@@ -6,7 +6,7 @@
 
   <!-- SEO -->
   <title>UHNW Client Mastery — A 2-Hour Executive Experience | Thriving Talents</title>
-  <meta name="description" content="A two-hour executive experience in the art of UHNW client mastery — drawn from a career inside the world's leading LVMH and Kering maisons. Kuala Lumpur, July–August 2026. By invitation only." />
+  <meta name="description" content="A two-hour executive experience in the art of UHNW client mastery — drawn from a career inside the world's leading LVMH and Kering maisons. Kuala Lumpur, August 2026. By invitation only." />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#F7F3EC" />
   <link rel="canonical" href="https://uhwn-preview.vercel.app/" />
@@ -14,13 +14,13 @@
 <meta property="og:image" content="https://uhwn-preview.vercel.app/assets/poster.png" />
 
   <meta property="og:title" content="UHNW Client Mastery — A 2-Hour Executive Experience" />
-  <meta property="og:description" content="Serve the way the world's greatest houses do. A two-hour executive experience in UHNW client mastery. Kuala Lumpur · July–August 2026 · By invitation only." />
+  <meta property="og:description" content="Serve the way the world's greatest houses do. A two-hour executive experience in UHNW client mastery. Kuala Lumpur · August 2026 · By invitation only." />
   <!-- Open Graph image: the campaign poster -->
   <meta property="og:image" content="assets/poster.png" />
   <meta property="og:image:alt" content="UHNW Client Mastery — by invitation only campaign poster." />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="UHNW Client Mastery — A 2-Hour Executive Experience" />
-  <meta name="twitter:description" content="Serve the way the world's greatest houses do. Kuala Lumpur · July–August 2026 · By invitation only." />
+  <meta name="twitter:description" content="Serve the way the world's greatest houses do. Kuala Lumpur · August 2026 · By invitation only." />
   <meta name="twitter:image" content="assets/poster.png" />
 
   <!-- Fonts -->
@@ -76,6 +76,7 @@
       line-height: 1.08;
       letter-spacing: 0.005em;
       margin: 0;
+      text-wrap: balance;
     }
 
     /* ---------- Layout helpers ---------- */
@@ -124,7 +125,7 @@
       margin-bottom: 1.5rem;
     }
 
-    .lede { max-width: 60ch; color: var(--ink-soft); }
+    .lede { max-width: 60ch; color: var(--ink-soft); text-wrap: pretty; }
 
     .gold-rule {
       width: 64px;
@@ -215,6 +216,7 @@
       font-size: clamp(1.05rem, 1.4vw, 1.2rem);
       color: var(--ink-soft);
       margin-bottom: 2.5rem;
+      text-wrap: pretty;
     }
     .hero__visual {
       position: relative;
@@ -259,7 +261,7 @@
     }
 
     /* ---------- The Gap ---------- */
-    .gap-body p { max-width: 64ch; margin-block: 0 1.4rem; color: var(--ink-soft); }
+    .gap-body p { max-width: 64ch; margin-block: 0 1.4rem; color: var(--ink-soft); text-wrap: pretty; }
     .gap-body p:first-of-type { font-size: 1.12rem; color: var(--ink); }
 
     /* ---------- Trainer ---------- */
@@ -319,8 +321,9 @@
       padding-top: 1.75rem;
       border-top: 1px solid rgba(184,152,90,0.4);
       max-width: 34ch;
+      text-wrap: pretty;
     }
-    .trainer__intro { color: var(--ink-soft); max-width: 46ch; }
+    .trainer__intro { color: var(--ink-soft); max-width: 46ch; text-wrap: pretty; }
     @media (max-width: 860px) {
       .trainer { grid-template-columns: 1fr; }
       .trainer__media { order: -1; max-width: 440px; aspect-ratio: 3 / 4; }
@@ -508,71 +511,68 @@
       color: var(--ink-soft);
     }
 
-    /* ---------- Host team ---------- */
-    .hosts { text-align: center; }
-    .hosts-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: clamp(1.5rem, 3vw, 2.5rem);
-      margin-top: 3rem;
+    /* ---------- Presented-by strip ---------- */
+    .presented-by {
+      padding-block: 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(184,152,90,0.3);
+      border-bottom: 1px solid rgba(184,152,90,0.3);
     }
-    .host-card { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
-    .host-card__photo {
-      width: 120px; height: 120px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 2px solid var(--gold);
-      background: var(--champagne);
-      flex-shrink: 0;
-    }
-    .host-card__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center center; }
-    .host-card__name {
+    .presented-by__text {
       font-family: var(--serif);
-      font-size: 1.2rem;
-      color: var(--ink);
+      font-style: italic;
+      font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+      color: var(--ink-soft);
       margin: 0;
+      letter-spacing: 0.02em;
     }
-    @media (max-width: 860px) { .hosts-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .hosts-grid { grid-template-columns: repeat(2, 1fr); } }
 
     /* ---------- Scene images ---------- */
     .scenes-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: clamp(1rem, 2vw, 1.5rem);
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, clamp(200px, 26vw, 360px));
+      gap: clamp(0.5rem, 1.2vw, 1rem);
       margin-top: 3rem;
     }
     .scene-card {
       position: relative;
-      aspect-ratio: 4 / 3;
       overflow: hidden;
       background: var(--ink);
     }
+    /* Pinwheel: wide left top, narrow right top, narrow left bottom, wide right bottom */
+    .scene-card:nth-child(1) { grid-column: span 2; }
+    .scene-card:nth-child(4) { grid-column: span 2; }
     .scene-card img {
       width: 100%; height: 100%;
       object-fit: cover;
-      transition: transform .6s ease, opacity .6s ease;
-      opacity: 0.82;
+      transition: transform .7s cubic-bezier(.2,.6,.2,1), opacity .7s ease;
+      opacity: 0.78;
     }
-    .scene-card:hover img { transform: scale(1.04); opacity: 0.7; }
+    .scene-card:hover img { transform: scale(1.05); opacity: 0.65; }
     .scene-card__caption {
       position: absolute;
       bottom: 0; left: 0; right: 0;
       padding: 1.25rem 1.5rem;
-      background: linear-gradient(to top, rgba(26,20,16,0.85) 0%, transparent 100%);
+      background: linear-gradient(to top, rgba(26,20,16,0.88) 0%, transparent 100%);
       color: #fff;
     }
     .scene-card__caption p {
       margin: 0;
       font-family: var(--serif);
       font-style: italic;
-      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      font-size: clamp(0.95rem, 1.6vw, 1.2rem);
       line-height: 1.35;
     }
-    @media (max-width: 640px) { .scenes-grid { grid-template-columns: 1fr; } }
-
-    /* ---------- Pillar emojis ---------- */
-    .pillar__emoji { font-size: 1.6rem; display: block; margin-bottom: 0.5rem; line-height: 1; }
+    @media (max-width: 640px) {
+      .scenes-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+      }
+      .scene-card { aspect-ratio: 4 / 3; }
+      .scene-card:nth-child(1),
+      .scene-card:nth-child(4) { grid-column: auto; }
+    }
 
     /* ---------- Takeback list ---------- */
     .takeback-list {
@@ -582,13 +582,40 @@
       max-width: 60ch;
     }
     .takeback-list li {
-      display: flex;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
+      position: relative;
+      padding-left: 1.9rem;
+      margin-bottom: 1.25rem;
       color: var(--ink-soft);
       font-size: 1.05rem;
     }
-    .takeback-list li .tl-emoji { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1em; }
+    .takeback-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 9px; height: 9px;
+      border: 1px solid var(--gold);
+      transform: rotate(45deg);
+    }
+
+    /* ---------- Trainer badge (Singapore) ---------- */
+    .trainer__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 1.75rem;
+      padding: 0.55rem 1.1rem;
+      border: 1px solid rgba(184,152,90,0.5);
+      border-radius: 2px;
+    }
+    .trainer__badge__flag { font-size: 1.4rem; line-height: 1; }
+    .trainer__badge__text {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--ink-soft);
+      letter-spacing: 0.01em;
+    }
 
     /* ---------- Accessibility helpers ---------- */
     :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
@@ -630,7 +657,7 @@
     <!-- ============ 1 · HERO ============ -->
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero__content">
-        <p class="eyebrow">By invitation only · Kuala Lumpur · July–August 2026</p>
+        <p class="eyebrow">By invitation only · Kuala Lumpur · August 2026</p>
         <h1 id="hero-title">Serve the way the world's greatest houses do.</h1>
         <p class="hero__sub">A two-hour executive experience in the art of UHNW client mastery — drawn from a career inside the world's leading LVMH and Kering maisons.</p>
         <div>
@@ -646,7 +673,7 @@
     <section class="panel" aria-labelledby="gap-title">
       <div class="wrap reveal">
         <p class="kicker">The gap</p>
-        <h2 class="section-title" id="gap-title">The same clients. <br/> Two very different standards.</h2>
+        <h2 class="section-title" id="gap-title">The same clients. Two very different standards.</h2>
         <hr class="gold-rule" />
         <div class="gap-body">
           <p>The luxury industry and financial services court the very same high-net-worth individuals — yet they train their people to entirely different standards. A private banker and a maison's clienteling director may sit across from the same client in the same week. Only one has been taught to earn a relationship that lasts decades.</p>
@@ -655,52 +682,12 @@
       </div>
     </section>
 
-    <!-- ============ 2b · YOUR HOSTS ============ -->
-    <section class="hosts" aria-labelledby="hosts-title">
-      <div class="wrap reveal">
-        <p class="kicker">Your hosts</p>
-        <h2 class="section-title" id="hosts-title">Meet the team behind this experience.</h2>
-        <hr class="gold-rule" />
-        <div class="hosts-grid">
-          <div class="host-card">
-            <div class="host-card__photo">
-              <img src="assets/Michael Teoh.jpg" alt="Michael Teoh" />
-            </div>
-            <p class="host-card__name">Michael Teoh</p>
-          </div>
-          <div class="host-card">
-            <div class="host-card__photo">
-              <img src="assets/Winnie Lim.jpg" alt="Winnie Lim" />
-            </div>
-            <p class="host-card__name">Winnie Lim</p>
-          </div>
-          <div class="host-card">
-            <div class="host-card__photo">
-              <img src="assets/Sia.jpg" alt="Sia" />
-            </div>
-            <p class="host-card__name">Sia Kye Fung</p>
-          </div>
-          <div class="host-card">
-            <div class="host-card__photo">
-              <img src="assets/Adrian Tang.jpg" alt="Adrian Tang" />
-            </div>
-            <p class="host-card__name">Adrian Tang</p>
-          </div>
-          <div class="host-card">
-            <div class="host-card__photo">
-              <img src="assets/Zoe Ng.jpg" alt="Zoe Ng" />
-            </div>
-            <p class="host-card__name">Zoe Ng</p>
-          </div>
-          <div class="host-card">
-            <div class="host-card__photo">
-              <img src="assets/Summer Heng.jpg" alt="Summer Heng" />
-            </div>
-            <p class="host-card__name">Summer Heng</p>
-          </div>
-        </div>
+    <!-- ============ 2b · PRESENTED BY ============ -->
+    <div class="presented-by">
+      <div class="wrap">
+        <p class="presented-by__text">Presented by the Team from Thriving Talents</p>
       </div>
-    </section>
+    </div>
 
     <!-- ============ 3 · THE TRAINER ============ -->
     <section aria-labelledby="trainer-title">
@@ -713,13 +700,17 @@
           <div class="trainer__text">
             <p class="kicker">The trainer</p>
             <h2 class="section-title" id="trainer-title">The teacher you weren't supposed to meet.</h2>
-            <p class="trainer__intro">For reasons of discretion, we won't print his name here. What we can tell you is this:</p>
+            <p class="trainer__intro">Their identities are withheld by design. These are trainers who have shaped the client culture of billion-dollar global brands — and discretion is part of how they operate. What we can tell you is this:</p>
             <ul>
               <li>Former Clienteling &amp; Loyalty (CRM) Manager across the world's leading LVMH and Kering maisons.</li>
               <li>Has personally served UHNW clients — socialites, public figures, business moguls and the circles that surround them.</li>
               <li>Spent a career mastering the unwritten codes of trust that the luxury industry guards closely.</li>
             </ul>
             <p class="trainer__closing">This expertise has never been available outside the luxury industry — until now.</p>
+            <div class="trainer__badge">
+              <span class="trainer__badge__flag">🇸🇬</span>
+              <span class="trainer__badge__text">Based in Singapore</span>
+            </div>
           </div>
         </div>
       </div>
@@ -735,25 +726,21 @@
 
         <div class="pillars-grid">
           <article class="pillar">
-            <span class="pillar__emoji" aria-hidden="true">🤝</span>
             <span class="pillar__num">01</span>
             <h3>First Impressions</h3>
             <p>How UHNW clients decide whether to trust you, often within seconds.</p>
           </article>
           <article class="pillar">
-            <span class="pillar__emoji" aria-hidden="true">🗣️</span>
             <span class="pillar__num">02</span>
             <h3>Language That Signals</h3>
             <p>The tone, vocabulary and cultural fluency affluent clients expect, and notice when it's missing.</p>
           </article>
           <article class="pillar">
-            <span class="pillar__emoji" aria-hidden="true">✨</span>
             <span class="pillar__num">03</span>
             <h3>Designing Lasting Experiences</h3>
             <p>Authentic connection and follow-up that keeps a client for decades, not quarters.</p>
           </article>
           <article class="pillar">
-            <span class="pillar__emoji" aria-hidden="true">🌐</span>
             <span class="pillar__num">04</span>
             <h3>The Principal's Ecosystem</h3>
             <p>Navigating the gatekeepers, advisors and inner circles around every UHNW client.</p>
@@ -769,16 +756,16 @@
         <h2 class="section-title" id="takeback-title">What you'll take back to your team.</h2>
         <hr class="gold-rule" />
         <ul class="takeback-list">
-          <li><span class="tl-emoji">🎯</span> See precisely where the gaps sit in your client-facing teams — drawn from a full two-day corporate programme distilled into two powerful hours.</li>
-          <li><span class="tl-emoji">🏛️</span> Understand the standard the world's greatest houses train to, and what it looks like applied to financial services and wealth management.</li>
-          <li><span class="tl-emoji">💼</span> Leave knowing exactly what the full programme can do for your people — and your client relationships.</li>
-          <li><span class="tl-emoji">👥</span> Designed for L&amp;D heads, training managers and senior leaders who own how their people show up in front of clients.</li>
+          <li>See precisely where the gaps sit in your client-facing teams — drawn from a full two-day corporate programme distilled into two powerful hours.</li>
+          <li>Understand the standard the world's greatest houses train to, and what it looks like applied to financial services and wealth management.</li>
+          <li>Leave knowing exactly what the full programme can do for your people — and your client relationships.</li>
+          <li>Designed for L&amp;D heads, training managers and senior leaders who own how their people show up in front of clients.</li>
         </ul>
       </div>
     </section>
 
     <!-- ============ 5b · SCENE IMAGES ============ -->
-    <section class="panel" aria-label="What UHNW mastery looks like in practice">
+    <section aria-label="What UHNW mastery looks like in practice">
       <div class="wrap reveal">
         <p class="kicker">In practice</p>
         <h2 class="section-title">The moments that define a career.</h2>
@@ -815,7 +802,6 @@
     <!-- ============ 6 · THE EXPERIENCE (LOGISTICS) ============ -->
     <section class="panel" aria-labelledby="experience-title">
       <div class="wrap reveal">
-        <p class="kicker">The details</p>
         <h2 class="section-title" id="experience-title">The experience.</h2>
         <hr class="gold-rule" />
         <dl class="logistics">
@@ -842,7 +828,6 @@
     <!-- ============ 7 · REGISTER ============ -->
     <section class="register" id="register" aria-labelledby="register-title">
       <div class="wrap reveal">
-        <p class="kicker">Registration</p>
         <h2 class="section-title" id="register-title">Request your seat.</h2>
         <hr class="gold-rule" />
         <p class="lede">Seats are strictly limited and offered by invitation. Complete the form below and our team will confirm your place and the virtual meeting link will be shared.</p>
