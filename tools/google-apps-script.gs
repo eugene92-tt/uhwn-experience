@@ -9,7 +9,7 @@
  *   1. Create a new Google Sheet (e.g. "Luxury Standards Dinner — Seats").
  *   2. Extensions -> Apps Script, delete the placeholder, paste this file.
  *   3. Set TOKEN below to any random string.
- *   4. Run previewRsvp19 once from the editor to authorise and read the email.
+ *   4. Run previewRsvp20 once from the editor to authorise and read the email.
  *   5. Deploy -> New deployment -> Web app.  Execute as: Me.  Who has access: Anyone.
  *   6. Paste the /exec URL into ENDPOINT and the TOKEN into TOKEN at the top of
  *      the <script> in luxury-standards-dinner/index.html.
@@ -17,7 +17,7 @@
  * Re-deploy (Manage deployments -> edit -> Version: New version) after any
  * change here, or the live URL keeps serving the old code.
  *
- * Each session has its own tab. The first SEATS distinct emails on a tab are
+ * The session has its own tab. The first SEATS distinct emails on it are
  * Confirmed and get the "seat confirmed" email with a calendar invite; anyone
  * after that is Waitlisted. The script cannot judge competing brands — check
  * the Brand / Industry columns and un-confirm by hand if two brands clash.
@@ -32,29 +32,20 @@ const FROM_NAME = 'Thriving Talents';
 const REPLY_TO  = 'sales@thrivingtalents.com';
 const PAGE_URL  = 'https://uhnw.thrivingtalents.com/luxury-standards-dinner';
 
-const LINEUP = 'Hosted by Michael Teoh Su Lim (Founder & CEO, Thriving Talents), with Reinald Goh, luxury insider and anthropologist of UHNW client behaviour, and Ethan Lin, sales psychology expert and high-net-worth sales educator.';
-const WHERE  = 'Kuala Lumpur (venue to be confirmed)';
+const LINEUP = 'Hosted by Michael Teoh Su Lim (Founder & CEO, Thriving Talents), joined by Reinald Goh, a luxury industry insider with over 15 years across Prada, Dior, Celine, Gucci and Tiffany & Co., and Ethan Lin, an expert in sales psychology and high-net-worth customer engagement.';
+const WHERE  = 'Rakuzen (Private Dining Room), NU Sentral, KL Sentral';
 
 const EVENTS = {
-  'LSD-2026-11-19': {
-    sheet: 'Thu 19 Nov 2026',
-    title: 'Luxury Standards Dinner',
-    // 7.30pm–9.30pm MYT (UTC+8)
-    startUtc: '20261119T113000Z',
-    endUtc: '20261119T133000Z',
-    date: 'Thursday, 19 November 2026',
-    other: 'Friday, 20 November'
-  },
   'LSD-2026-11-20': {
     sheet: 'Fri 20 Nov 2026',
     title: 'Luxury Standards Dinner',
-    startUtc: '20261120T113000Z',
-    endUtc: '20261120T133000Z',
-    date: 'Friday, 20 November 2026',
-    other: 'Thursday, 19 November'
+    // 7.00pm–8.30pm MYT (UTC+8)
+    startUtc: '20261120T110000Z',
+    endUtc: '20261120T123000Z',
+    date: 'Friday, 20 November 2026'
   }
 };
-const TIME = '7.30pm to 9.30pm (MYT)';
+const TIME = '7.00pm to 8.30pm (MYT)';
 const GROUND = '#0E0B08', ACCENT = '#C9A35C';
 
 const HEADERS = [
@@ -219,8 +210,8 @@ function resendMissingRsvpConfirmations() {
 }
 
 /** Pick one from the Run menu to read the email in your own inbox. Does not touch the sheet. */
-function previewRsvp19() { previewRsvp('LSD-2026-11-19', 'Confirmed'); }
-function previewWaitlist19() { previewRsvp('LSD-2026-11-19', 'Waitlist'); }
+function previewRsvp20() { previewRsvp('LSD-2026-11-20', 'Confirmed'); }
+function previewWaitlist20() { previewRsvp('LSD-2026-11-20', 'Waitlist'); }
 function previewRsvp(key, status) {
   const opts = rsvpMail(EVENTS[key], Session.getEffectiveUser().getEmail(), 'Eugene', status);
   opts.subject = '[preview] ' + opts.subject;
@@ -274,7 +265,7 @@ function rsvpText(ev, name, status) {
     return [
       hi,
       'Thank you for your interest in the Luxury Standards Dinner. All ' + SEATS + ' seats for ' + ev.date + ' have now been taken, so we have placed you on the waitlist.',
-      'If a seat opens up we will write to you straight away. You are also welcome to request a seat on ' + ev.other + ' instead: ' + PAGE_URL,
+      'If a seat opens up we will write to you straight away.',
       'Thriving Talents\n' + REPLY_TO
     ].join('\n\n');
   }
@@ -283,7 +274,7 @@ function rsvpText(ev, name, status) {
     'Thank you. Your seat at the Luxury Standards Dinner is confirmed.',
     'When: ' + ev.date + ', ' + TIME + '\nWhere: ' + WHERE,
     LINEUP,
-    'We will send the venue details closer to the date. A calendar invite is attached. To add it to Google Calendar instead: ' + googleCalendarLink(ev),
+    'A calendar invite is attached. To add it to Google Calendar instead: ' + googleCalendarLink(ev),
     'If your plans change, just reply to this email and let us know, so we can offer the seat to the next guest.',
     'See you at the table,\nThriving Talents\n' + REPLY_TO
   ].join('\n\n');
@@ -308,7 +299,7 @@ function rsvpHtml(ev, name, status) {
   const day = escapeHtml(ev.date.replace(/^\w+, /, ''));
   const body = wait ? [
     p('Thank you for your interest in the Luxury Standards Dinner. All ' + SEATS + ' seats for ' + escapeHtml(ev.date) + ' have now been taken, so we have placed you on the <strong>waitlist</strong>.'),
-    p('If a seat opens up we will write to you straight away. You are also welcome to <a href="' + PAGE_URL + '" style="color:' + ink + ';text-decoration:underline;">request a seat on ' + escapeHtml(ev.other) + '</a> instead.')
+    p('If a seat opens up we will write to you straight away.')
   ] : [
     p('Thank you. Your seat at the Luxury Standards Dinner is <strong>confirmed</strong>.'),
     '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 20px;border-collapse:collapse;font-family:' + FONT_STACK + ';">',
@@ -316,7 +307,7 @@ function rsvpHtml(ev, name, status) {
     fact('Where', escapeHtml(WHERE)),
     '</table>',
     p(escapeHtml(LINEUP)),
-    p('We will send the venue details closer to the date. A calendar invite is attached. Using Google Calendar? <a href="' + googleCalendarLink(ev) + '" style="color:' + ink + ';text-decoration:underline;">Add it there instead</a>.'),
+    p('A calendar invite is attached. Using Google Calendar? <a href="' + googleCalendarLink(ev) + '" style="color:' + ink + ';text-decoration:underline;">Add it there instead</a>.'),
     p('If your plans change, just reply to this email and let us know, so we can offer the seat to the next guest.')
   ];
   return [
@@ -326,7 +317,7 @@ function rsvpHtml(ev, name, status) {
     '<title>' + escapeHtml(subjectFor(ev, status)) + '</title></head>',
     '<body style="margin:0;padding:0;background:#F2EDE4;">',
     '<div style="display:none;max-height:0;max-width:0;opacity:0;overflow:hidden;font-size:1px;line-height:1px;color:#F2EDE4;">',
-    wait ? 'You are on the waitlist for ' + day + '.' : 'Your seat is confirmed. ' + day + ', 7.30pm, Kuala Lumpur.',
+    wait ? 'You are on the waitlist for ' + day + '.' : 'Your seat is confirmed. ' + day + ', 7pm at Rakuzen, NU Sentral.',
     '</div>',
     '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#F2EDE4" style="background:#F2EDE4;border-collapse:collapse;">',
     '<tr><td align="center" style="padding:24px 12px;">',
@@ -334,7 +325,7 @@ function rsvpHtml(ev, name, status) {
     '<tr><td bgcolor="' + GROUND + '" style="background:' + GROUND + ';padding:30px 32px;font-family:' + FONT_STACK + ';">',
     '<div style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:' + ACCENT + ';">Special Dinner Invitation &middot; ' + day + '</div>',
     '<div style="margin-top:10px;font-size:28px;line-height:1.2;color:#FFFFFF;">Luxury Standards Dinner</div>',
-    '<div style="margin-top:6px;font-size:15px;font-style:italic;color:#D9CBB0;">Understanding the Psychology of High-Net-Worth Clients</div>',
+    '<div style="margin-top:6px;font-size:15px;font-style:italic;color:#D9CBB0;">An Intimate Evening of Conversations, Connections &amp; Luxury Insights</div>',
     '</td></tr>',
     '<tr><td bgcolor="' + ACCENT + '" style="background:' + ACCENT + ';font-size:0;line-height:0;height:2px;">&#8203;</td></tr>',
     '<tr><td style="padding:32px;font-family:' + FONT_STACK + ';font-size:16px;line-height:1.6;color:' + ink + ';">',
