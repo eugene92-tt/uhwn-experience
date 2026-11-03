@@ -23,7 +23,7 @@
  * the Brand / Industry columns and un-confirm by hand if two brands clash.
  */
 
-const TOKEN = 'CHANGE-ME';
+const TOKEN = 'UHNW-TT';
 const SEATS = 4;
 
 const SEND_CONFIRMATION = true;
