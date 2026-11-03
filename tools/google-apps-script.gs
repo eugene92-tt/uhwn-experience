@@ -33,7 +33,6 @@ const REPLY_TO  = 'sales@thrivingtalents.com';
 const PAGE_URL  = 'https://uhnw.thrivingtalents.com/luxury-standards-dinner';
 
 const LINEUP = 'Hosted by Michael Teoh Su Lim (Founder & CEO, Thriving Talents), joined by Reinald Goh, a luxury industry insider with over 15 years across Prada, Dior, Celine, Gucci and Tiffany & Co., and Ethan Lin, an expert in sales psychology and high-net-worth customer engagement.';
-const WHERE  = 'Rakuzen (Private Dining Room), NU Sentral, KL Sentral';
 
 const EVENTS = {
   'LSD-2026-11-19': {
@@ -43,6 +42,9 @@ const EVENTS = {
     startUtc: '20261119T110000Z',
     endUtc: '20261119T123000Z',
     date: 'Thursday, 19 November 2026',
+    // Exact venue TBC. When confirmed: update `where`, drop `whereNote`, publish a New version.
+    where: 'TRX, Kuala Lumpur',
+    whereNote: 'We will email you the exact venue once it is confirmed.',
     other: 'Friday, 20 November'
   },
   'LSD-2026-11-20': {
@@ -51,6 +53,7 @@ const EVENTS = {
     startUtc: '20261120T110000Z',
     endUtc: '20261120T123000Z',
     date: 'Friday, 20 November 2026',
+    where: 'Rakuzen (Private Dining Room), NU Sentral, KL Sentral',
     other: 'Thursday, 19 November'
   }
 };
@@ -234,7 +237,7 @@ function googleCalendarLink(ev) {
   return 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
     '&text=' + encodeURIComponent(ev.title) +
     '&dates=' + ev.startUtc + '/' + ev.endUtc +
-    '&location=' + encodeURIComponent(WHERE) +
+    '&location=' + encodeURIComponent(ev.where) +
     '&details=' + encodeURIComponent(PAGE_URL);
 }
 
@@ -253,7 +256,7 @@ function eventIcs(ev) {
     'DTSTART:' + ev.startUtc,
     'DTEND:' + ev.endUtc,
     'SUMMARY:' + esc(ev.title),
-    'LOCATION:' + esc(WHERE),
+    'LOCATION:' + esc(ev.where),
     'DESCRIPTION:' + esc(LINEUP + '\n' + PAGE_URL),
     'URL:' + PAGE_URL,
     'END:VEVENT',
@@ -282,7 +285,7 @@ function rsvpText(ev, name, status) {
   return [
     hi,
     'Thank you. Your seat at the Luxury Standards Dinner is confirmed.',
-    'When: ' + ev.date + ', ' + TIME + '\nWhere: ' + WHERE,
+    'When: ' + ev.date + ', ' + TIME + '\nWhere: ' + ev.where + (ev.whereNote ? '\n' + ev.whereNote : ''),
     LINEUP,
     'A calendar invite is attached. To add it to Google Calendar instead: ' + googleCalendarLink(ev),
     'If your plans change, just reply to this email and let us know, so we can offer the seat to the next guest.',
@@ -314,7 +317,7 @@ function rsvpHtml(ev, name, status) {
     p('Thank you. Your seat at the Luxury Standards Dinner is <strong>confirmed</strong>.'),
     '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 20px;border-collapse:collapse;font-family:' + FONT_STACK + ';">',
     fact('When', escapeHtml(ev.date) + '<br>' + escapeHtml(TIME)),
-    fact('Where', escapeHtml(WHERE)),
+    fact('Where', escapeHtml(ev.where) + (ev.whereNote ? '<br><em style="color:' + muted + ';">' + escapeHtml(ev.whereNote) + '</em>' : '')),
     '</table>',
     p(escapeHtml(LINEUP)),
     p('A calendar invite is attached. Using Google Calendar? <a href="' + googleCalendarLink(ev) + '" style="color:' + ink + ';text-decoration:underline;">Add it there instead</a>.'),
@@ -327,7 +330,7 @@ function rsvpHtml(ev, name, status) {
     '<title>' + escapeHtml(subjectFor(ev, status)) + '</title></head>',
     '<body style="margin:0;padding:0;background:#F2EDE4;">',
     '<div style="display:none;max-height:0;max-width:0;opacity:0;overflow:hidden;font-size:1px;line-height:1px;color:#F2EDE4;">',
-    wait ? 'You are on the waitlist for ' + day + '.' : 'Your seat is confirmed. ' + day + ', 7pm at Rakuzen, NU Sentral.',
+    wait ? 'You are on the waitlist for ' + day + '.' : 'Your seat is confirmed. ' + day + ', 7pm, ' + ev.where + '.',
     '</div>',
     '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#F2EDE4" style="background:#F2EDE4;border-collapse:collapse;">',
     '<tr><td align="center" style="padding:24px 12px;">',
