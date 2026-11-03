@@ -17,7 +17,7 @@
  * Re-deploy (Manage deployments -> edit -> Version: New version) after any
  * change here, or the live URL keeps serving the old code.
  *
- * The session has its own tab. The first SEATS distinct emails on it are
+ * Each session has its own tab. The first SEATS distinct emails on a tab are
  * Confirmed and get the "seat confirmed" email with a calendar invite; anyone
  * after that is Waitlisted. The script cannot judge competing brands — check
  * the Brand / Industry columns and un-confirm by hand if two brands clash.
@@ -36,13 +36,22 @@ const LINEUP = 'Hosted by Michael Teoh Su Lim (Founder & CEO, Thriving Talents),
 const WHERE  = 'Rakuzen (Private Dining Room), NU Sentral, KL Sentral';
 
 const EVENTS = {
+  'LSD-2026-11-19': {
+    sheet: 'Thu 19 Nov 2026',
+    title: 'Luxury Standards Dinner',
+    // 7.00pm–8.30pm MYT (UTC+8)
+    startUtc: '20261119T110000Z',
+    endUtc: '20261119T123000Z',
+    date: 'Thursday, 19 November 2026',
+    other: 'Friday, 20 November'
+  },
   'LSD-2026-11-20': {
     sheet: 'Fri 20 Nov 2026',
     title: 'Luxury Standards Dinner',
-    // 7.00pm–8.30pm MYT (UTC+8)
     startUtc: '20261120T110000Z',
     endUtc: '20261120T123000Z',
-    date: 'Friday, 20 November 2026'
+    date: 'Friday, 20 November 2026',
+    other: 'Thursday, 19 November'
   }
 };
 const TIME = '7.00pm to 8.30pm (MYT)';
@@ -212,6 +221,7 @@ function resendMissingRsvpConfirmations() {
 /** Pick one from the Run menu to read the email in your own inbox. Does not touch the sheet. */
 function previewRsvp20() { previewRsvp('LSD-2026-11-20', 'Confirmed'); }
 function previewWaitlist20() { previewRsvp('LSD-2026-11-20', 'Waitlist'); }
+function previewRsvp19() { previewRsvp('LSD-2026-11-19', 'Confirmed'); }
 function previewRsvp(key, status) {
   const opts = rsvpMail(EVENTS[key], Session.getEffectiveUser().getEmail(), 'Eugene', status);
   opts.subject = '[preview] ' + opts.subject;
@@ -265,7 +275,7 @@ function rsvpText(ev, name, status) {
     return [
       hi,
       'Thank you for your interest in the Luxury Standards Dinner. All ' + SEATS + ' seats for ' + ev.date + ' have now been taken, so we have placed you on the waitlist.',
-      'If a seat opens up we will write to you straight away.',
+      'If a seat opens up we will write to you straight away. You are also welcome to request a seat on ' + ev.other + ' instead: ' + PAGE_URL,
       'Thriving Talents\n' + REPLY_TO
     ].join('\n\n');
   }
@@ -299,7 +309,7 @@ function rsvpHtml(ev, name, status) {
   const day = escapeHtml(ev.date.replace(/^\w+, /, ''));
   const body = wait ? [
     p('Thank you for your interest in the Luxury Standards Dinner. All ' + SEATS + ' seats for ' + escapeHtml(ev.date) + ' have now been taken, so we have placed you on the <strong>waitlist</strong>.'),
-    p('If a seat opens up we will write to you straight away.')
+    p('If a seat opens up we will write to you straight away. You are also welcome to <a href="' + PAGE_URL + '" style="color:' + ink + ';text-decoration:underline;">request a seat on ' + escapeHtml(ev.other) + '</a> instead.')
   ] : [
     p('Thank you. Your seat at the Luxury Standards Dinner is <strong>confirmed</strong>.'),
     '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 20px;border-collapse:collapse;font-family:' + FONT_STACK + ';">',
